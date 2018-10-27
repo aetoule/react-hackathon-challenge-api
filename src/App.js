@@ -20,8 +20,6 @@ class App extends Component {
     // Pixabay
 
     // Deck of Cards API 
-    // Need to shuffle cards with 
-    // https://deckofcardsapi.com/api/deck/new/shuffle/?cards=AS,KS,QS,JS,0S
 
   }
   render() {
