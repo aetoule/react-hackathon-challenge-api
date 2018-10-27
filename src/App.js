@@ -8,7 +8,11 @@ class App extends Component {
     chuck: '',
     poke: '',
     sw: '',
-    swspecies: ''
+    swspecies: '',
+    swhome: '',
+    city: '',
+    desc: '',
+    jelly: ''
   };
 
   componentDidMount() {
@@ -20,7 +24,7 @@ class App extends Component {
       })
     })
     // PokeAPI 
-      axios.get('http://pokeapi.co/api/v2/').then(res => {
+      axios.get('https://pokeapi.salestock.net/api/v2/pokemon/25').then(res => {
         console.log('hi')
         console.log(res.data)
         this.setState({
@@ -28,17 +32,47 @@ class App extends Component {
         })
       })
     // SWAPI
-    axios.get('https://swapi.co/api/people/1').then(res => {
+    axios.get('https://swapi.co/api/people/?page=2')
+    .then(res => {
+      console.log('hi', res.data)
       this.setState({
-        sw: res.data.name,
-        swspecies: res.data.species[0]
+        sw: res.data.results[2].name,
+      })
+    })
+    axios.get('https://swapi.co/api/species/').then(res => {
+      this.setState({
+        swspecies: res.data.name
+      })
+    })
+    axios.get('https://swapi.co/api/planets/1/').then(res => {
+      this.setState({
+        swhome: res.data.name
       })
     })
     // Weather API
+    
+    axios.get('http://api.openweathermap.org/data/2.5/weather?q=Phoenix,usa?id=524901&APPID=58e914d0cca6e32900f55d445991e346').then(res => {
+      this.setState({
+        city:'Phoenix',
+        desc: res.data.weather[0].description
+      })
+    })
 
     // Pixabay
+    axios.get('https://pixabay.com/api/videos/?key=10494418-356403dc28f38679788247994&q=jellyfish').then(res => {
+      console.log('hey',res.data.hits[0].videos.medium.url)
+      this.setState({
+        jelly: res.data.hits[0].videos.tiny.url
+      })
+    })
 
     // Deck of Cards API 
+    axios.get('https://deckofcardsapi.com/api/eko0314b9a1j/new/draw/?count=2').then(res => {
+      console.log('deck', res.data)
+      this.setState({
+        deck: ''
+      })
+    })
 
   }
   render() {
@@ -47,18 +81,22 @@ class App extends Component {
           <h1>DevMountain Phoenix API Challenge</h1>
           <h2>Chuck Norris API</h2>
           <p>Joke: {this.state.chuck}</p>
-          <h2>PokeAPI</h2>
+          {/* <h2>PokeAPI</h2>
           <p>Name: {this.state.poke}</p>
-          <img src={'http://example-url.com'} alt=""/>
+          <img src={'http://example-url.com'} alt=""/> */}
           <h2>SWAPI</h2>
           <p>Name: {this.state.sw}</p>
           <p>Species: {this.state.swspecies}</p>
-          <p>Homeworld: {}</p>
+          <p>Homeworld: {this.state.swhome}</p>
           <h2>Weather API</h2>
-          <p>City: {}</p>
-          <p>Weather: {}</p>
+          <p>City: {this.state.city}</p>
+          <p>Weather: {this.state.desc}</p>
           <h2>Pixabay</h2>
-          <a href={'http://example-url.com'} target="_blank"><img className="pixabay_picture" src={Pixabay} alt="Pixabay Picture"/></a>
+          {/* <a href={this.state.jelly} target="_blank"><img className="pixabay_picture" src={this.state.jelly} alt="Pixabay Picture"/></a> */}
+          <video id="background-video" loop autoplay>
+            <source src={this.state.jelly} type="video/mp4" />
+    Your browser does not support the video tag.
+</video>
           <h2>Deck of Cards API</h2>
           <h2>Royal Flush</h2>
           <div className="royalFlush">
